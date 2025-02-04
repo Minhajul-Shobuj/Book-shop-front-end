@@ -40,7 +40,6 @@ Welcome to the **BookLover Website**, an online platform where users can explore
 
 ```sh
  git clone https://github.com/your-repo/bookstore.git
- cd bookstore
 ```
 
 2️⃣ **Install Dependencies**
