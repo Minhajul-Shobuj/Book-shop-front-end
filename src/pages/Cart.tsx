@@ -25,6 +25,7 @@ import { RemoveShoppingCart, ShoppingCart } from "@mui/icons-material";
 import { useState } from "react";
 import OrderModal from "./OrderModal";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
+import NavBar from "../components/Home/TopBar/Navbar";
 
 const Cart = () => {
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ const Cart = () => {
 
   return (
     <>
+      <NavBar />
       <Box sx={{ padding: 4 }}>
         <Typography
           style={{
