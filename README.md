@@ -1,8 +1,14 @@
-# 📚 BookLover Website
+# 📚 BookLover Front-End
 
 ## 📖 Overview
 
-Welcome to the **BookLover Website**, an online platform where users can explore, search, and purchase books across various categories. This project is built using **React, TypeScript, Redux Toolkit, and Material-UI (MUI)** for a seamless and interactive user experience.
+## Welcome to the **BookLover Website**, an online platform where users can explore, search, and purchase books across various categories. This project is built using **React, TypeScript, Redux Toolkit, and Material-UI (MUI)** for a seamless and interactive user experience.
+
+## 🚀 Live Demo
+
+🌐 [Click here to view the live version](https://book-lover-front-end.vercel.app/)
+
+---
 
 ## 🚀 Features
 
