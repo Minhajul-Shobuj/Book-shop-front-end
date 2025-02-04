@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/CartSlice";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
 import { toast } from "sonner";
+import NavBar from "../components/Home/TopBar/Navbar";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -30,6 +31,7 @@ const BookDetails = () => {
   return (
     <>
       <>
+        <NavBar />
         <Box
           sx={{
             padding: 4,
