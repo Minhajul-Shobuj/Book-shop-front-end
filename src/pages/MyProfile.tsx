@@ -20,6 +20,7 @@ import {
 import { toast } from "sonner";
 import { TResponse } from "../types/global";
 import NavBar from "../components/Home/TopBar/Navbar";
+import { Person } from "@mui/icons-material";
 
 const MyProfile = () => {
   const { data: myProfileInfo } = useGetMeQuery(undefined);
@@ -68,12 +69,13 @@ const MyProfile = () => {
               height: 80,
               mb: 2,
               mx: "auto",
-              bgcolor: "primary.main",
+              bgcolor: "#393280",
+              fontSize: "2rem",
             }}
           >
-            Person
+            <Person />
           </Avatar>
-          <Typography variant="h5" fontWeight="bold" color="primary">
+          <Typography variant="h5" fontWeight="bold" color="#ED553B">
             My Profile
           </Typography>
         </Box>
@@ -81,34 +83,48 @@ const MyProfile = () => {
           sx={{
             p: 3,
             mb: 3,
-            border: "1px solid #ddd",
+            border: "1px solid #e0e0e0",
             borderRadius: 2,
             boxShadow: 2,
             bgcolor: "#fafafa",
           }}
         >
-          <Typography variant="h6" fontWeight="bold" mb={2} color="primary">
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            mb={2}
+            color="#393280"
+            sx={{ textAlign: "center" }}
+          >
             Profile Information
           </Typography>
-          <Typography variant="body1" mb={1}>
-            <strong>Name:</strong> {myProfileInfo?.data?.name}
-          </Typography>
-          <Typography variant="body1">
-            <strong>Email:</strong> {myProfileInfo?.data?.email}
-          </Typography>
+          <Box sx={{ textAlign: "center" }}>
+            <Typography variant="body1" mb={1}>
+              <strong>Name:</strong> {myProfileInfo?.data?.name}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Email:</strong> {myProfileInfo?.data?.email}
+            </Typography>
+          </Box>
         </Paper>
         <Paper
           component="form"
           onSubmit={handlePasswordSubmit(updatePassword)}
           sx={{
             p: 3,
-            border: "1px solid #ddd",
+            border: "1px solid #e0e0e0",
             borderRadius: 2,
             boxShadow: 2,
             bgcolor: "#fafafa",
           }}
         >
-          <Typography variant="h6" fontWeight="bold" mb={2} color="primary">
+          <Typography
+            variant="h6"
+            fontWeight="bold"
+            mb={2}
+            color="#393280"
+            sx={{ textAlign: "center" }}
+          >
             Update Your Password
           </Typography>
           <Controller
@@ -159,8 +175,11 @@ const MyProfile = () => {
             variant="contained"
             sx={{
               mt: 2,
-              bgcolor: "primary.main",
+              background: "#ED553B",
               "&:hover": { bgcolor: "primary.dark" },
+              fontSize: "1rem",
+              fontWeight: "bold",
+              padding: "12px 0",
             }}
           >
             Update Password

@@ -20,6 +20,7 @@ import {
   Facebook,
   Instagram,
   LinkedIn,
+  Person,
   ShoppingCart,
   Twitter,
 } from "@mui/icons-material";
@@ -230,9 +231,14 @@ function NavBar() {
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
+                      sx={{
+                        bgcolor: "#393280",
+                        fontSize: "2rem",
+                      }}
                       alt="User Avatar"
-                      src="https://via.placeholder.com/40"
-                    />
+                    >
+                      <Person />
+                    </Avatar>
                   </IconButton>
                 </Tooltip>
                 <Menu

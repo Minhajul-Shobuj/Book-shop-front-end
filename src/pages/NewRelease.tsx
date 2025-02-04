@@ -38,7 +38,7 @@ const NewRelease = () => {
   return (
     <>
       <NavBar />
-      <div style={{ width: "100%", height: "100%", background: "#FCECEC" }}>
+      <div style={{ width: "100%", height: "100vh", background: "#FCECEC" }}>
         <div>
           <div
             style={{
