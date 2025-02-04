@@ -165,17 +165,26 @@ const UserDashBoard = () => {
                               <TableHead>
                                 <TableRow sx={{ backgroundColor: "#393280" }}>
                                   <TableCell
-                                    sx={{ color: "white", fontWeight: "bold" }}
+                                    sx={{
+                                      color: "white",
+                                      fontWeight: "bold",
+                                    }}
                                   >
                                     Product
                                   </TableCell>
                                   <TableCell
-                                    sx={{ color: "white", fontWeight: "bold" }}
+                                    sx={{
+                                      color: "white",
+                                      fontWeight: "bold",
+                                    }}
                                   >
                                     Quantity
                                   </TableCell>
                                   <TableCell
-                                    sx={{ color: "white", fontWeight: "bold" }}
+                                    sx={{
+                                      color: "white",
+                                      fontWeight: "bold",
+                                    }}
                                   >
                                     Price
                                   </TableCell>
