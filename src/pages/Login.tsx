@@ -10,7 +10,7 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Login = () => {
@@ -137,6 +137,12 @@ const Login = () => {
           >
             Login
           </Button>
+          <Typography
+            variant="body2"
+            sx={{ marginTop: 2, textAlign: "center" }}
+          >
+            Don't have an account? <Link to={"/register"}>Register here</Link>
+          </Typography>
         </form>
       </Box>
     </Container>

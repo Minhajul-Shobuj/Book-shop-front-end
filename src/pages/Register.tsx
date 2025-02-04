@@ -9,7 +9,7 @@ import {
 import { toast } from "sonner";
 import { TResponse } from "../types/global";
 import { useRegisterMutation } from "../redux/features/auth/AuthApi";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 type TUser = {
   name: string;
@@ -154,6 +154,12 @@ const Register = () => {
             >
               Register
             </Button>
+            <Typography
+              variant="body2"
+              sx={{ marginTop: 2, textAlign: "center" }}
+            >
+              Already Registered? <Link to={"/login"}>Login</Link>
+            </Typography>
           </form>
         </Box>
       </Container>
