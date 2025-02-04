@@ -21,6 +21,8 @@ import {
 import { useMakeOrderMutation } from "../redux/features/order/OrderApi";
 import { TResponse } from "../types/global";
 import { toast } from "sonner";
+import { useAppDispatch } from "../redux/hook";
+import { clearCart } from "../redux/features/cart/CartSlice";
 
 const OrderModal = ({
   cart,
@@ -32,6 +34,7 @@ const OrderModal = ({
   const { control, handleSubmit } = useForm();
   const email = user?.email;
   const [makeOrder] = useMakeOrderMutation();
+  const dispatch = useAppDispatch();
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("...palcing your order");
@@ -42,12 +45,12 @@ const OrderModal = ({
     };
     try {
       const res = (await makeOrder(orderData)) as TResponse<any>;
-      console.log(res);
       if (res.error) {
         toast.error(res.error?.data.message, { id: toastId });
       } else {
         toast.success("Thank's for palcing an Order", { id: toastId });
         handleCloseModal();
+        dispatch(clearCart());
       }
     } catch (err: any) {
       toast.error(err.message, { id: toastId });
