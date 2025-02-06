@@ -11,6 +11,7 @@ import {
   Paper,
   Collapse,
   IconButton,
+  CircularProgress,
 } from "@mui/material";
 import {
   KeyboardArrowDown,
@@ -24,7 +25,7 @@ import { useGetMyOrdersQuery } from "../redux/features/order/OrderApi";
 
 const UserDashBoard = () => {
   const [openOrderId, setOpenOrderId] = useState(null);
-  const { data } = useGetMyOrdersQuery(undefined);
+  const { data, isLoading } = useGetMyOrdersQuery(undefined);
   const orders = data?.data || [];
 
   const handleToggleProducts = (orderId: any) => {
@@ -50,7 +51,11 @@ const UserDashBoard = () => {
         >
           YOUR-ORDERS
         </Typography>
-        {orders.length === 0 ? (
+        {isLoading ? (
+          <Box sx={{ display: "flex", justifyContent: "center", padding: 4 }}>
+            <CircularProgress color="secondary" />
+          </Box>
+        ) : orders.length === 0 ? (
           <Box
             display="flex"
             flexDirection="column"

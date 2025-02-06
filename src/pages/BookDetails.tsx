@@ -1,6 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useGetsingleBookQuery } from "../redux/features/admin/productManagement.api";
-import { Box, Button, CardMedia, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  CardMedia,
+  CircularProgress,
+  Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/CartSlice";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
@@ -9,7 +15,7 @@ import NavBar from "../components/Home/TopBar/Navbar";
 
 const BookDetails = () => {
   const { bookId } = useParams();
-  const { data } = useGetsingleBookQuery(bookId);
+  const { data, isLoading } = useGetsingleBookQuery(bookId);
   const book = data?.data;
   const user = useAppSelector(useCurrentUser);
   const dispatch = useAppDispatch();
@@ -30,8 +36,12 @@ const BookDetails = () => {
   };
   return (
     <>
-      <>
-        <NavBar />
+      <NavBar />
+      {isLoading ? (
+        <Box sx={{ display: "flex", justifyContent: "center", padding: 4 }}>
+          <CircularProgress color="secondary" />
+        </Box>
+      ) : (
         <Box
           sx={{
             padding: 4,
@@ -115,7 +125,7 @@ const BookDetails = () => {
             </Box>
           </Box>
         </Box>
-      </>
+      )}
     </>
   );
 };
