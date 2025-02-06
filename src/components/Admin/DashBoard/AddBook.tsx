@@ -2,8 +2,8 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { useAddBookMutation } from "../../../redux/features/admin/productManagement.api";
-import { TResponse } from "../../../types/global";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export type TBook = {
   title: string;
@@ -17,6 +17,7 @@ export type TBook = {
 
 const AddBook = () => {
   const [addBook] = useAddBookMutation();
+  const [uploading, setUploading] = useState(false);
   const {
     control,
     handleSubmit,
@@ -24,8 +25,39 @@ const AddBook = () => {
     reset,
   } = useForm<TBook>();
 
+  const uploadImageToCloudinary = async (file: File) => {
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "upload_book_img");
+    formData.append("cloud_name", "dazztziwj");
+    setUploading(true);
+
+    try {
+      const res = await fetch(
+        "https://api.cloudinary.com/v1_1/dazztziwj/image/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      const data = await res.json();
+      setUploading(false);
+      return data.secure_url;
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setUploading(false);
+      return null;
+    }
+  };
+
   const onSubmit = async (data: TBook) => {
     const toastId = toast.loading("....Creating");
+
+    if (!data.bookImg || typeof data.bookImg !== "string") {
+      toast.error("Please upload a valid book image", { id: toastId });
+      return;
+    }
 
     const bookData = {
       ...data,
@@ -33,18 +65,8 @@ const AddBook = () => {
       stock: Number(data.stock),
     };
 
-    const formData = new FormData();
-    formData.append("data", JSON.stringify(bookData));
-
-    if (data.bookImg) {
-      formData.append("file", data.bookImg);
-    } else {
-      toast.error("Please upload a valid book image", { id: toastId });
-      return;
-    }
-
     try {
-      const res = (await addBook(formData)) as TResponse<Partial<TBook>>;
+      const res = await addBook(bookData).unwrap();
       if (res.error) {
         toast.error(res.error?.data?.message, { id: toastId });
       } else {
@@ -152,18 +174,33 @@ const AddBook = () => {
                 id="bookImg"
                 type="file"
                 accept="image/*"
-                onChange={(e) => {
+                onChange={async (e) => {
                   const file = e.target.files?.[0] || null;
                   field.onChange(file);
+
+                  if (file) {
+                    const imageUrl = await uploadImageToCloudinary(file);
+                    if (imageUrl) {
+                      field.onChange(imageUrl);
+                    }
+                  }
                 }}
                 ref={field.ref}
                 style={{ display: "block" }}
               />
-              {field.value && field.value.name && <p>{field.value.name}</p>}
+              {uploading && <p>Uploading...</p>}
+              {field.value && typeof field.value === "string" && (
+                <img
+                  src={field.value}
+                  alt="Uploaded Preview"
+                  style={{ width: "100px", marginTop: "10px" }}
+                />
+              )}
               {fieldState?.error && <span>{fieldState?.error.message}</span>}
             </Box>
           )}
         />
+
         <Controller
           name="publishedDate"
           control={control}
