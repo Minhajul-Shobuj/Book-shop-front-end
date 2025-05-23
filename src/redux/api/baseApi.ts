@@ -12,7 +12,7 @@ import { toast } from "sonner";
 import { logout, setUser } from "../features/auth/AuthSlice";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: "https://assignment-3-six-psi.vercel.app",
+  baseUrl: "/https://assignment-3-six-psi.vercel.app/api",
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.token;
