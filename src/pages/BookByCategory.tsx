@@ -1,4 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Link, useParams } from "react-router-dom";
+import { useGetAllbooksQuery } from "../redux/features/admin/productManagement.api";
+import NavBar from "../components/Home/TopBar/Navbar";
 import {
   Box,
   Button,
@@ -9,53 +11,45 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { useGetAllbooksQuery } from "../redux/features/admin/productManagement.api";
-import { Link } from "react-router-dom";
-import NavBar from "../components/Home/TopBar/Navbar";
-import { useState } from "react";
-import { TQueryParam } from "../types/global";
+import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/CartSlice";
-import { toast } from "sonner";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
-import Sidebar from "../components/Sidebar/Sidebar";
 
-const AllBooks = () => {
-  const [searchQuery, setSearchQuery] = useState<TQueryParam[] | undefined>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+const BookByCategory = () => {
+  const { category } = useParams();
+  const searchQuery = category ? [{ name: "category", value: category }] : [];
+  const { data: bookData, isLoading } = useGetAllbooksQuery(searchQuery);
+  const cardItems = bookData?.data;
   const dispatch = useAppDispatch();
   const user = useAppSelector(useCurrentUser);
 
-  const { data: bookData, isLoading } = useGetAllbooksQuery(searchQuery);
-  const cardItems = bookData?.data;
-  const totalPages = bookData?.meta?.totalPage || 1;
+  // const handleFilterChange = (filters: any) => {
+  //     const filterQuery: TQueryParam[] = [
+  //       { name: "minPrice", value: filters.priceRange[0].toString() },
+  //       { name: "maxPrice", value: filters.priceRange[1].toString() },
+  //     ];
 
-  const handleFilterChange = (filters: any) => {
-    const filterQuery: TQueryParam[] = [
-      { name: "minPrice", value: filters.priceRange[0].toString() },
-      { name: "maxPrice", value: filters.priceRange[1].toString() },
-    ];
+  //     if (filters.selectedCategories.length) {
+  //       filterQuery.push({
+  //         name: "categories",
+  //         value: filters.selectedCategories.join(","),
+  //       });
+  //     }
 
-    if (filters.selectedCategories.length) {
-      filterQuery.push({
-        name: "categories",
-        value: filters.selectedCategories.join(","),
-      });
-    }
+  //     setSearchQuery((prev) => {
+  //       const searchTerm = prev?.find((q) => q.name === "searchTerm");
+  //       return searchTerm ? [searchTerm, ...filterQuery] : [...filterQuery];
+  //     });
+  //   };
 
-    setSearchQuery((prev) => {
-      const searchTerm = prev?.find((q) => q.name === "searchTerm");
-      return searchTerm ? [searchTerm, ...filterQuery] : [...filterQuery];
-    });
-  };
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-    setSearchQuery((prev) => [
-      ...(prev || []).filter((q) => q.name !== "page"),
-      { name: "page", value: page.toString() },
-    ]);
-  };
+  //   const handlePageChange = (page: number) => {
+  //     setCurrentPage(page);
+  //     setSearchQuery((prev) => [
+  //       ...(prev || []).filter((q) => q.name !== "page"),
+  //       { name: "page", value: page.toString() },
+  //     ]);
+  //   };
 
   const handleAddToCart = async (bookId: string) => {
     const book = cardItems?.find((book) => book._id === bookId);
@@ -72,7 +66,6 @@ const AllBooks = () => {
       toast.success(`${book.title} added to cart`);
     }
   };
-
   return (
     <>
       <NavBar />
@@ -113,13 +106,6 @@ const AllBooks = () => {
         </Box>
 
         <Box display="flex" px={2} pt={4}>
-          <Sidebar
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onFilterChange={handleFilterChange}
-            onPageChange={handlePageChange}
-          />
-
           <Box flexGrow={1} pl={4}>
             {isLoading ? (
               <Box display="flex" justifyContent="center" p={4}>
@@ -274,4 +260,4 @@ const AllBooks = () => {
   );
 };
 
-export default AllBooks;
+export default BookByCategory;

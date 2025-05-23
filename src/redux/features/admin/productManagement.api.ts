@@ -71,6 +71,12 @@ const productManagementApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
+    getAllCategories: builder.query({
+      query: () => ({
+        url: "/categories",
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -82,4 +88,5 @@ export const {
   useUpdateBookStockMutation,
   useUpdateBookDescriptionMutation,
   useDeleteBookMutation,
+  useGetAllCategoriesQuery,
 } = productManagementApi;

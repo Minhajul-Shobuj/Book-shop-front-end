@@ -15,6 +15,9 @@ import MyProfile from "../pages/MyProfile";
 import UserDashBoard from "../pages/UserDashBoard";
 import AdminOrders from "../components/Admin/DashBoard/AdminOrders";
 import NewRelease from "../pages/NewRelease";
+import SearchResultsPage from "../pages/SearchResultPage";
+import AllCategories from "../pages/AllCategories";
+import BookByCategory from "../pages/BookByCategory";
 
 const router = createBrowserRouter([
   {
@@ -34,8 +37,20 @@ const router = createBrowserRouter([
     element: <AllBooks />,
   },
   {
+    path: "/search-results",
+    element: <SearchResultsPage />,
+  },
+  {
     path: "/new-books",
     element: <NewRelease />,
+  },
+  {
+    path: "/categories",
+    element: <AllCategories />,
+  },
+  {
+    path: "/categories/:category",
+    element: <BookByCategory />,
   },
   {
     path: "/details/:bookId",

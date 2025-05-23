@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useState } from "react";
 import { Mail } from "@mui/icons-material";
 import {
   Box,
@@ -7,8 +9,28 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { useSubscribeMutation } from "../../../redux/features/auth/AuthApi";
+import { toast } from "sonner";
 
 const Subscribe = () => {
+  const [email, setEmail] = useState("");
+  const [subscribe, { isLoading }] = useSubscribeMutation();
+
+  const handleSubscribe = async () => {
+    if (!email || !email.includes("@")) {
+      toast.error("Please enter a valid email address.");
+      return;
+    }
+
+    try {
+      await subscribe({ email }).unwrap();
+      toast.success("Successfully subscribed!");
+      setEmail("");
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Subscription failed.");
+    }
+  };
+
   return (
     <>
       <Box
@@ -66,6 +88,8 @@ const Subscribe = () => {
               fullWidth
               variant="standard"
               placeholder="youremail123@gmail.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               InputProps={{
                 disableUnderline: true,
                 startAdornment: (
@@ -78,6 +102,8 @@ const Subscribe = () => {
             />
             <Button
               variant="contained"
+              disabled={isLoading}
+              onClick={handleSubscribe}
               sx={{
                 backgroundColor: "#ED553B",
                 color: "white",
@@ -89,7 +115,7 @@ const Subscribe = () => {
                 },
               }}
             >
-              SUBSCRIBE
+              {isLoading ? "..." : "SUBSCRIBE"}
             </Button>
           </Paper>
         </Box>

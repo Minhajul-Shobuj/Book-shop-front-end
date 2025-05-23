@@ -24,6 +24,13 @@ const authApi = baseApi.injectEndpoints({
         body: passwordData,
       }),
     }),
+    subscribe: builder.mutation({
+      query: (email) => ({
+        url: "/subscribe",
+        method: "POST",
+        body: email,
+      }),
+    }),
     getMe: builder.query({
       query: () => {
         return {
@@ -46,4 +53,5 @@ export const {
   useRegisterMutation,
   useUpdatePasswordMutation,
   useGetMeQuery,
+  useSubscribeMutation,
 } = authApi;

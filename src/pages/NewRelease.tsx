@@ -81,7 +81,7 @@ const NewRelease = () => {
                     md={4}
                     lg={3}
                     key={index}
-                    sx={{ display: "flex", justifyContent: "flex-start" }}
+                    sx={{ display: "flex", justifyContent: "center" }}
                   >
                     <Link
                       to={`/details/${item._id}`}

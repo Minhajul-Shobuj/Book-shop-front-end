@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Card,
   CardContent,
@@ -7,29 +8,11 @@ import {
   Button,
   Box,
 } from "@mui/material";
-
-const cardItems = [
-  {
-    title: "Fiction",
-    description: "This is a description for card 1.",
-    imgUrl:
-      "https://res.cloudinary.com/dazztziwj/image/upload/v1738537746/jmfevuzyropz4xxcsfjx.jpg",
-  },
-  {
-    title: "Science",
-    description: "This is a description for card 2.",
-    imgUrl:
-      "https://res.cloudinary.com/dazztziwj/image/upload/v1738537747/vheagce4wfpnusmmgwnf.jpg",
-  },
-  {
-    title: "History",
-    description: "This is a description for card 3.",
-    imgUrl:
-      "https://res.cloudinary.com/dazztziwj/image/upload/v1738537597/wvronkj2hc7xxsy1xcyb.jpg",
-  },
-];
+import { Link } from "react-router-dom";
+import { useGetAllCategoriesQuery } from "../../../redux/features/admin/productManagement.api";
 
 const Categories = () => {
+  const { data: categories } = useGetAllCategoriesQuery(undefined);
   return (
     <Box
       sx={{
@@ -70,63 +53,72 @@ const Categories = () => {
       </Box>
       <Box sx={{ flexGrow: 1, padding: 2 }}>
         <Grid container spacing={4}>
-          {cardItems.map((item, index) => (
+          {categories?.data?.map((item: any) => (
             <Grid
               item
               xs={12}
               sm={6}
               md={4}
               lg={4}
-              key={index}
+              key={item._id}
               sx={{ display: "flex", justifyContent: "center" }}
             >
-              <Card
-                sx={{
-                  maxWidth: 400,
+              <Link
+                to={`/categories/${item.title}`}
+                style={{
+                  textDecoration: "none",
                   width: "100%",
-                  boxShadow: 3,
-                  borderRadius: 2,
-                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                  "&:hover": {
-                    transform: "scale(1.05)",
-                    boxShadow: 6,
-                  },
+                  display: "block",
                 }}
               >
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={item.imgUrl}
-                  alt={item.title}
+                <Card
                   sx={{
-                    objectFit: "cover",
-                  }}
-                />
-                <CardContent
-                  sx={{
-                    textAlign: "center",
-                    padding: "24px",
+                    maxWidth: 400,
+                    width: "100%",
+                    boxShadow: 3,
+                    borderRadius: 2,
+                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                    "&:hover": {
+                      transform: "scale(1.05)",
+                      boxShadow: 6,
+                    },
                   }}
                 >
-                  <Typography
-                    gutterBottom
-                    variant="h6"
-                    component="div"
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={item.imgUrl}
+                    alt={item.title}
                     sx={{
-                      width: "100%",
-                      height: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <CardContent
+                    sx={{
                       textAlign: "center",
-                      color: "#393280",
-                      fontSize: 24,
-                      fontFamily: "Inter",
-                      fontWeight: "600",
-                      wordWrap: "break-word",
+                      padding: "24px",
                     }}
                   >
-                    {item.title}
-                  </Typography>
-                </CardContent>
-              </Card>
+                    <Typography
+                      gutterBottom
+                      variant="h6"
+                      component="div"
+                      sx={{
+                        width: "100%",
+                        height: "100%",
+                        textAlign: "center",
+                        color: "#393280",
+                        fontSize: 24,
+                        fontFamily: "Inter",
+                        fontWeight: "600",
+                        wordWrap: "break-word",
+                      }}
+                    >
+                      {item.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Link>
             </Grid>
           ))}
         </Grid>
@@ -138,26 +130,28 @@ const Categories = () => {
           marginTop: "40px",
         }}
       >
-        <Button
-          variant="outlined"
-          sx={{
-            borderRadius: "8px",
-            border: "2px solid #393280",
-            color: "#393280",
-            fontSize: 16,
-            fontWeight: 600,
-            textTransform: "uppercase",
-            letterSpacing: 1.6,
-            padding: "12px 24px",
-            "&:hover": {
-              backgroundColor: "#393280",
-              color: "white",
-              borderColor: "#393280",
-            },
-          }}
-        >
-          View More
-        </Button>
+        <Link style={{ textDecoration: "none" }} to={"/categories"}>
+          <Button
+            variant="outlined"
+            sx={{
+              borderRadius: "8px",
+              border: "2px solid #393280",
+              color: "#393280",
+              fontSize: 16,
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: 1.6,
+              padding: "12px 24px",
+              "&:hover": {
+                backgroundColor: "#393280",
+                color: "white",
+                borderColor: "#393280",
+              },
+            }}
+          >
+            View More
+          </Button>
+        </Link>
       </Box>
     </Box>
   );
