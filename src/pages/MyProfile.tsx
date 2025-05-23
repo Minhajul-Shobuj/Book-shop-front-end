@@ -22,6 +22,7 @@ import { toast } from "sonner";
 import { TResponse } from "../types/global";
 import NavBar from "../components/Home/TopBar/Navbar";
 import { Person } from "@mui/icons-material";
+import Footer from "../components/Home/Footer/Footer";
 
 const MyProfile = () => {
   const { data: myProfileInfo, isLoading } = useGetMeQuery(undefined);
@@ -192,6 +193,7 @@ const MyProfile = () => {
           </Paper>
         </Box>
       )}
+      <Footer />
     </>
   );
 };

@@ -12,6 +12,7 @@ import { addToCart } from "../redux/features/cart/CartSlice";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
 import { toast } from "sonner";
 import NavBar from "../components/Home/TopBar/Navbar";
+import Footer from "../components/Home/Footer/Footer";
 
 const BookDetails = () => {
   const { bookId } = useParams();
@@ -126,6 +127,7 @@ const BookDetails = () => {
           </Box>
         </Box>
       )}
+      <Footer />
     </>
   );
 };

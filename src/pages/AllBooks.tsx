@@ -12,53 +12,54 @@ import {
 import { useGetAllbooksQuery } from "../redux/features/admin/productManagement.api";
 import { Link } from "react-router-dom";
 import NavBar from "../components/Home/TopBar/Navbar";
-import { useState } from "react";
-import { TQueryParam } from "../types/global";
+import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/CartSlice";
 import { toast } from "sonner";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
 import Sidebar from "../components/Sidebar/Sidebar";
+import Footer from "../components/Home/Footer/Footer";
 
 const AllBooks = () => {
-  const [searchQuery, setSearchQuery] = useState<TQueryParam[] | undefined>([]);
+  const { data: bookData, isLoading } = useGetAllbooksQuery(undefined);
+  const allBooks = bookData?.data;
+  const [filteredBooks, setFilteredBooks] = useState(allBooks);
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
   const user = useAppSelector(useCurrentUser);
-
-  const { data: bookData, isLoading } = useGetAllbooksQuery(searchQuery);
-  const cardItems = bookData?.data;
   const totalPages = bookData?.meta?.totalPage || 1;
 
   const handleFilterChange = (filters: any) => {
-    const filterQuery: TQueryParam[] = [
-      { name: "minPrice", value: filters.priceRange[0].toString() },
-      { name: "maxPrice", value: filters.priceRange[1].toString() },
-    ];
+    let result = allBooks;
 
-    if (filters.selectedCategories.length) {
-      filterQuery.push({
-        name: "categories",
-        value: filters.selectedCategories.join(","),
-      });
+    // Category filter
+    if (filters.selectedCategories?.length) {
+      result = result?.filter((book: any) =>
+        filters.selectedCategories.includes(book.category)
+      );
     }
 
-    setSearchQuery((prev) => {
-      const searchTerm = prev?.find((q) => q.name === "searchTerm");
-      return searchTerm ? [searchTerm, ...filterQuery] : [...filterQuery];
-    });
+    // Price range filter
+    if (filters.priceRange?.length === 2) {
+      const [min, max] = filters.priceRange;
+      result = result?.filter(
+        (book: any) => book.price >= min && book.price <= max
+      );
+    }
+
+    setFilteredBooks(result);
+    setCurrentPage(1);
   };
+  useEffect(() => {
+    setFilteredBooks(allBooks);
+  }, [allBooks]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    setSearchQuery((prev) => [
-      ...(prev || []).filter((q) => q.name !== "page"),
-      { name: "page", value: page.toString() },
-    ]);
   };
 
   const handleAddToCart = async (bookId: string) => {
-    const book = cardItems?.find((book) => book._id === bookId);
+    const book = allBooks?.find((book) => book._id === bookId);
     if (book) {
       dispatch(
         addToCart({
@@ -125,7 +126,7 @@ const AllBooks = () => {
               <Box display="flex" justifyContent="center" p={4}>
                 <CircularProgress color="secondary" />
               </Box>
-            ) : cardItems?.length === 0 ? (
+            ) : filteredBooks?.length === 0 ? (
               <Box textAlign="center" ml={4}>
                 <Typography variant="h6" color="text.secondary">
                   No books found. Try a different search.
@@ -133,7 +134,7 @@ const AllBooks = () => {
               </Box>
             ) : (
               <Grid container spacing={3} pb={5}>
-                {cardItems?.map((item, index) => (
+                {filteredBooks?.map((item, index) => (
                   <Grid item xs={12} sm={6} md={4} lg={4} key={index}>
                     <Link
                       to={`/details/${item._id}`}
@@ -269,6 +270,7 @@ const AllBooks = () => {
             )}
           </Box>
         </Box>
+        <Footer />
       </Box>
     </>
   );

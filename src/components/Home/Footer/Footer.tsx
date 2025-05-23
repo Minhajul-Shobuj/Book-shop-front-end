@@ -49,14 +49,14 @@ const Footer = () => {
           </Typography>
           {[
             "Home",
-            "About Us",
             "Books",
+            "Category",
             "New Release",
+            "About Us",
             "Contact Us",
-            "Blog",
           ].map((item) => (
             <Typography key={item} variant="body2" sx={{ mt: 1 }}>
-              <Link href="#" color="inherit" underline="hover">
+              <Link href={item} color="inherit" underline="hover">
                 {item}
               </Link>
             </Typography>
@@ -81,7 +81,7 @@ const Footer = () => {
       {/* Bottom Section */}
       <Box sx={{ textAlign: "center", mt: 4 }}>
         <Typography variant="body2">
-          © 2024 BookLover. All Rights Reserved.
+          © 2025 BookLover. All Rights Reserved.
         </Typography>
         <Typography variant="body2" sx={{ mt: 1 }}>
           <Link href="#" color="inherit" underline="hover">

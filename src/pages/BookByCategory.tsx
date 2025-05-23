@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { useAppDispatch, useAppSelector } from "../redux/hook";
 import { addToCart } from "../redux/features/cart/CartSlice";
 import { useCurrentUser } from "../redux/features/auth/AuthSlice";
+import Footer from "../components/Home/Footer/Footer";
 
 const BookByCategory = () => {
   const { category } = useParams();
@@ -23,8 +24,6 @@ const BookByCategory = () => {
   const cardItems = bookData?.data;
   const dispatch = useAppDispatch();
   const user = useAppSelector(useCurrentUser);
-
-  // const handleFilterChange = (filters: any) => {
   //     const filterQuery: TQueryParam[] = [
   //       { name: "minPrice", value: filters.priceRange[0].toString() },
   //       { name: "maxPrice", value: filters.priceRange[1].toString() },
@@ -92,6 +91,7 @@ const BookByCategory = () => {
           >
             Tales for Every Taste
           </Typography>
+
           <Typography
             sx={{
               color: "#393280",
@@ -99,9 +99,29 @@ const BookByCategory = () => {
               fontFamily: "Inter",
               fontWeight: 600,
               textTransform: "capitalize",
+              mb: 1,
             }}
           >
             Your Book Journey Starts Here
+          </Typography>
+          <Typography
+            sx={{
+              display: "inline-block",
+              mt: 1,
+              px: 2.5,
+              py: 0.5,
+              backgroundColor: "#ED553B",
+              color: "#ffffff",
+              fontSize: 14,
+              fontFamily: "Inter",
+              fontWeight: 600,
+              textTransform: "uppercase",
+              letterSpacing: 1.2,
+              borderRadius: "8px",
+              boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
+            }}
+          >
+            Category: {category}
           </Typography>
         </Box>
 
@@ -255,6 +275,7 @@ const BookByCategory = () => {
             )}
           </Box>
         </Box>
+        <Footer />
       </Box>
     </>
   );
