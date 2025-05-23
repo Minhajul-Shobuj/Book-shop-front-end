@@ -40,7 +40,7 @@ const carouselItems = [
     description:
       "Explore our collection of books and find your next adventure.",
     imgUrl:
-      "https://res.cloudinary.com/dazztziwj/image/upload/v1738253716/The%20Great.png",
+      "https://res.cloudinary.com/dazztziwj/image/upload/v1738824656/u9v1obcqmfabfmo5d7ud.png",
     buttonText: "Browse Books",
   },
   {
@@ -69,7 +69,7 @@ const HeroSection: React.FC = () => {
           width: "40px",
           height: "40px",
           color: "#ED553B",
-          margin: "20px",
+          margin: "10px",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)",
         },
       }}
@@ -77,7 +77,7 @@ const HeroSection: React.FC = () => {
         style: {
           top: "calc(50% - 20px)",
           transform: "translateY(-50%)",
-          margin: "0 20px",
+          margin: "0 10px",
         },
       }}
     >
@@ -85,12 +85,14 @@ const HeroSection: React.FC = () => {
         <Paper
           key={index}
           sx={{
-            padding: 15,
+            minHeight: "100vh",
+            px: { xs: 2, md: 10 },
+            py: { xs: 4, md: 10 },
             display: "flex",
+            flexDirection: { xs: "column", md: "row" },
             alignItems: "center",
-            textAlign: "center",
-            width: "100%",
-            height: "100%",
+            justifyContent: "center",
+            textAlign: { xs: "center", md: "left" },
             background:
               "linear-gradient(79deg, #FFE5E5 11%, #F5FFFE 69%, white 100%)",
           }}
@@ -98,8 +100,8 @@ const HeroSection: React.FC = () => {
           <AnimatedContent
             style={{
               flex: 1,
-              textAlign: "left",
-              paddingLeft: "10%",
+              width: "100%",
+              paddingRight: "5%",
             }}
           >
             <Typography
@@ -107,8 +109,8 @@ const HeroSection: React.FC = () => {
               sx={{
                 fontWeight: "bold",
                 color: "#393280",
-                fontSize: "3rem",
-                marginBottom: 2,
+                fontSize: { xs: "1.8rem", sm: "2.4rem", md: "3rem" },
+                mb: 2,
               }}
             >
               {item.title}
@@ -117,8 +119,8 @@ const HeroSection: React.FC = () => {
               variant="body1"
               sx={{
                 color: "#7A7A7A",
-                fontSize: "1.2rem",
-                marginBottom: 4,
+                fontSize: { xs: "1rem", md: "1.2rem" },
+                mb: 4,
               }}
             >
               {item.description}
@@ -129,7 +131,8 @@ const HeroSection: React.FC = () => {
                 backgroundColor: "#ED553B",
                 color: "white",
                 fontWeight: "bold",
-                padding: "12px 24px",
+                px: 4,
+                py: 1.5,
                 borderRadius: "8px",
                 "&:hover": {
                   backgroundColor: "#D8432E",
@@ -140,15 +143,23 @@ const HeroSection: React.FC = () => {
               {item.buttonText}
             </Button>
           </AnimatedContent>
+
           <AnimatedImage
             src={item.imgUrl}
             alt={item.title}
-            style={{
-              width: "400px",
-              height: "400px",
+            sx={{
+              width: {
+                xs: "80%",
+                sm: "70%",
+                md: "60%",
+                lg: "100%",
+              },
+              maxWidth: "400px",
               borderRadius: "8px",
               objectFit: "cover",
-              marginRight: "10%",
+              mx: "auto",
+              mt: "5px",
+              mb: 4,
             }}
           />
         </Paper>

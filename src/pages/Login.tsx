@@ -17,9 +17,15 @@ const Login = () => {
   const dispatch = useAppDispatch();
   const [login] = useLoginMutation();
   const navigate = useNavigate();
-  const { control, handleSubmit } = useForm();
   const location = useLocation();
   const from = (location.state as any)?.from || "/";
+
+  const { control, handleSubmit } = useForm({
+    defaultValues: {
+      email: "admin@gmail.com",
+      password: "admin1234",
+    },
+  });
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     const toastId = toast.loading("...logging in");
@@ -39,7 +45,7 @@ const Login = () => {
         navigate(from, { replace: true });
       }
     } catch (err: any) {
-      toast.error(err?.message, { id: toastId });
+      toast.error(err?.message || "Login failed", { id: toastId });
     }
   };
 
@@ -72,7 +78,6 @@ const Login = () => {
           <Controller
             name="email"
             control={control}
-            defaultValue=""
             rules={{
               required: "Email is required",
               pattern: {
@@ -95,7 +100,6 @@ const Login = () => {
           <Controller
             name="password"
             control={control}
-            defaultValue=""
             rules={{
               required: "Password is required",
               minLength: {
@@ -142,6 +146,12 @@ const Login = () => {
             sx={{ marginTop: 2, textAlign: "center" }}
           >
             Don't have an account? <Link to={"/register"}>Register here</Link>
+          </Typography>
+          <Typography
+            variant="body2"
+            sx={{ marginTop: 2, textAlign: "center" }}
+          >
+            <Link to={"/"}> Back To Browse</Link>
           </Typography>
         </form>
       </Box>
