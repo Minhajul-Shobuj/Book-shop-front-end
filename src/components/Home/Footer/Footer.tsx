@@ -50,10 +50,10 @@ const Footer = () => {
           {[
             "Home",
             "Books",
-            "Category",
+            "Categories",
             "New Release",
             "About Us",
-            "Contact Us",
+            "Contact",
           ].map((item) => (
             <Typography key={item} variant="body2" sx={{ mt: 1 }}>
               <Link href={item} color="inherit" underline="hover">

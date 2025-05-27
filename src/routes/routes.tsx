@@ -18,10 +18,16 @@ import NewRelease from "../pages/NewRelease";
 import SearchResultsPage from "../pages/SearchResultPage";
 import AllCategories from "../pages/AllCategories";
 import BookByCategory from "../pages/BookByCategory";
+import About from "../pages/About";
+import ContactUs from "../pages/ContactUs";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <App />,
+  },
+  {
+    path: "/home",
     element: <App />,
   },
   {
@@ -47,6 +53,14 @@ const router = createBrowserRouter([
   {
     path: "/categories",
     element: <AllCategories />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "/contact",
+    element: <ContactUs />,
   },
   {
     path: "/categories/:category",

@@ -42,8 +42,8 @@ const pages = [
   { name: "BOOKS", path: "/books" },
   { name: "CATEGORY", path: "/" },
   { name: "NEW RELEASE", path: "/new-books" },
-  { name: "ABOUT US", path: "/" },
-  { name: "CONTACT", path: "/" },
+  { name: "ABOUT US", path: "/about" },
+  { name: "CONTACT", path: "/contact" },
 ];
 const settings = ["Profile", "Dashboard", "Logout"];
 
@@ -94,7 +94,7 @@ function NavBar() {
 
   const navItemsStyle: React.CSSProperties = {
     color: "#111111",
-    fontSize: 18,
+    fontSize: 14,
     fontFamily: "Inter",
     fontWeight: "500",
     textTransform: "capitalize",
