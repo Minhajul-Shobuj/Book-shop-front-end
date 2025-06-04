@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Chip,
   CircularProgress,
   Grid,
   Typography,
@@ -23,6 +24,7 @@ import Footer from "../components/Home/Footer/Footer";
 const AllBooks = () => {
   const { data: bookData, isLoading } = useGetAllbooksQuery(undefined);
   const allBooks = bookData?.data;
+  console.log(allBooks);
   const [filteredBooks, setFilteredBooks] = useState(allBooks);
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
@@ -143,125 +145,134 @@ const AllBooks = () => {
                       <Card
                         sx={{
                           width: "100%",
-                          height: 420,
-                          background: "#fff",
-                          border: "1px solid #EAE8DF",
+                          maxWidth: 320,
+                          height: 450,
+                          backgroundColor: "#fff",
                           borderRadius: 2,
-                          position: "relative",
-                          transition: "transform 0.3s, box-shadow 0.3s",
-                          "&:hover": {
-                            transform: "scale(1.03)",
-                            boxShadow: 4,
-                          },
+                          boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+                          border: "1px solid #eee",
+                          overflow: "hidden",
+                          mx: "auto",
                           display: "flex",
                           flexDirection: "column",
-                          justifyContent: "space-between",
+                          transition:
+                            "box-shadow 0.3s ease, transform 0.3s ease",
+                          position: "relative",
+                          "&:hover": {
+                            boxShadow: "0 6px 20px rgba(0,0,0,0.1)",
+                            transform: "translateY(-4px)",
+                          },
                         }}
                       >
-                        <CardMedia
-                          component="img"
-                          height="60%"
-                          image={item?.bookImg}
-                          alt={item.title}
-                          sx={{
-                            objectFit: "contain",
-                            p: 2,
-                            borderBottom: "1px solid #eee",
-                          }}
-                        />
-
-                        <CardContent
-                          sx={{ textAlign: "left", px: 3, pt: 2, pb: 3 }}
-                        >
-                          <Typography
-                            variant="h6"
-                            fontWeight="bold"
-                            color="#393280"
-                            gutterBottom
-                            noWrap
-                          >
-                            {item.title}
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            gutterBottom
-                          >
-                            <strong>Author:</strong> {item.author}
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            color="textSecondary"
-                            gutterBottom
-                          >
-                            <strong>Price:</strong>{" "}
-                            <Typography
-                              component="span"
-                              fontWeight="bold"
-                              color="#ED553B"
-                            >
-                              ${item.price}
-                            </Typography>
-                          </Typography>
-
-                          <Typography
-                            variant="body2"
-                            color={
-                              item.stock > 0 ? "success.main" : "error.main"
-                            }
-                          >
-                            <strong>Stock:</strong>{" "}
-                            {item.stock > 0
-                              ? `${item.stock} available`
-                              : "Out of stock"}
-                          </Typography>
-                        </CardContent>
-
-                        {/* Hover overlay for Add to Cart */}
+                        {item.stock === 0 && (
+                          <Chip
+                            label="SOLDOUT"
+                            color="error"
+                            sx={{
+                              position: "absolute",
+                              top: 12,
+                              right: 12,
+                              fontWeight: "bold",
+                              borderRadius: "20px",
+                              zIndex: 5,
+                            }}
+                          />
+                        )}
                         <Box
                           sx={{
-                            position: "absolute",
-                            top: 0,
-                            left: 0,
-                            width: "100%",
-                            height: "100%",
+                            height: 320,
+                            background: "#fbf1f1",
                             display: "flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            backgroundColor: "rgba(0, 0, 0, 0.5)",
-                            opacity: 0,
-                            transition: "opacity 0.3s",
-                            borderRadius: 2,
-                            "&:hover": {
-                              opacity: 1,
-                            },
+                            px: 3,
+                            position: "relative",
                           }}
                         >
-                          <Button
-                            variant="contained"
-                            disabled={item.stock <= 0}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              handleAddToCart(item._id);
-                            }}
+                          <CardMedia
+                            component="img"
+                            image={item.bookImg}
+                            alt={item.title}
                             sx={{
-                              backgroundColor: "#ED553B",
-                              color: "#fff",
-                              textTransform: "none",
-                              fontWeight: "bold",
-                              px: 4,
-                              py: 1,
+                              maxHeight: "100%",
+                              maxWidth: "100%",
+                              objectFit: "contain",
+                              zIndex: 1,
+                            }}
+                          />
+                          <Box
+                            sx={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              width: "100%",
+                              height: "100%",
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              opacity: 0,
+                              transition: "opacity 0.3s ease",
+                              zIndex: 2,
                               "&:hover": {
-                                backgroundColor: "#d44733",
+                                opacity: 1,
                               },
                             }}
                           >
-                            Add to Cart
-                          </Button>
+                            <Button
+                              variant="contained"
+                              sx={{
+                                background: "#ED553B",
+                                color: "#fff",
+                                fontWeight: "bold",
+                                textTransform: "uppercase",
+                                px: 4,
+                                py: 1.5,
+                                borderRadius: 1,
+                                boxShadow: "none",
+                                "&:hover": {
+                                  background: "#D84331",
+                                },
+                              }}
+                              disabled={item.stock <= 0}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleAddToCart(item._id);
+                              }}
+                            >
+                              Add to Cart
+                            </Button>
+                          </Box>
                         </Box>
+                        <CardContent
+                          sx={{
+                            flexGrow: 1,
+                            display: "flex",
+                            flexDirection: "column",
+                            justifyContent: "center",
+                            alignItems: "flex-start",
+                            py: 2,
+                            px: 2,
+                          }}
+                        >
+                          <Typography
+                            variant="body1"
+                            fontSize={18}
+                            fontWeight={500}
+                            sx={{ mb: 0.5 }}
+                          >
+                            {item?.title}
+                          </Typography>
+
+                          <Typography
+                            variant="h6"
+                            fontSize={20}
+                            fontWeight={700}
+                            sx={{ color: "#ED553B" }}
+                          >
+                            ${item.price}
+                          </Typography>
+                        </CardContent>
                       </Card>
                     </Link>
                   </Grid>

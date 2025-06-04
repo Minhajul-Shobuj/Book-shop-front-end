@@ -56,14 +56,12 @@ const Footer = () => {
             "Contact",
           ].map((item) => (
             <Typography key={item} variant="body2" sx={{ mt: 1 }}>
-              <Link href={item} color="inherit" underline="hover">
+              <Link href={`/${item}`} color="inherit" underline="hover">
                 {item}
               </Link>
             </Typography>
           ))}
         </Grid>
-
-        {/* Important Links */}
         <Grid item xs={6} md={3}>
           <Typography variant="h6" fontWeight="bold">
             IMPORTANT LINKS

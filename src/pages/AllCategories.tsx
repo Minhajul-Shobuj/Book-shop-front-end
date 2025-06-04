@@ -1,15 +1,8 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Box,
-  Card,
-  CardContent,
-  CardMedia,
-  Grid,
-  Typography,
-} from "@mui/material";
+import { Box, Grid, Paper, Typography } from "@mui/material";
 import NavBar from "../components/Home/TopBar/Navbar";
 import { Link } from "react-router-dom";
 import { useGetAllCategoriesQuery } from "../redux/features/admin/productManagement.api";
+import { TCategory } from "../types/global";
 
 const AllCategories = () => {
   const { data: categories } = useGetAllCategoriesQuery(undefined);
@@ -55,7 +48,7 @@ const AllCategories = () => {
         </Box>
         <Box sx={{ flexGrow: 1, padding: 2 }}>
           <Grid container spacing={4}>
-            {categories?.data?.map((item: any) => (
+            {categories?.data?.map((item: TCategory) => (
               <Grid
                 item
                 xs={12}
@@ -73,53 +66,40 @@ const AllCategories = () => {
                     display: "block",
                   }}
                 >
-                  <Card
+                  <Paper
+                    elevation={1}
                     sx={{
-                      maxWidth: 400,
-                      width: "100%",
-                      boxShadow: 3,
+                      height: 200,
                       borderRadius: 2,
+                      overflow: "visible",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      textAlign: "center",
+                      p: 2,
+                      boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
                       transition: "transform 0.3s ease, box-shadow 0.3s ease",
                       "&:hover": {
                         transform: "scale(1.05)",
-                        boxShadow: 6,
+                        boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
                       },
                     }}
                   >
-                    <CardMedia
-                      component="img"
-                      height="200"
-                      image={item.imgUrl}
-                      alt={item.title}
-                      sx={{
-                        objectFit: "cover",
-                      }}
-                    />
-                    <CardContent
-                      sx={{
-                        textAlign: "center",
-                        padding: "24px",
-                      }}
+                    <Typography fontSize={50} mb={1}>
+                      {item.icon}
+                    </Typography>
+                    <Typography
+                      variant="h6"
+                      fontWeight="bold"
+                      color="text.primary"
                     >
-                      <Typography
-                        gutterBottom
-                        variant="h6"
-                        component="div"
-                        sx={{
-                          width: "100%",
-                          height: "100%",
-                          textAlign: "center",
-                          color: "#393280",
-                          fontSize: 24,
-                          fontFamily: "Inter",
-                          fontWeight: "600",
-                          wordWrap: "break-word",
-                        }}
-                      >
-                        {item.title}
-                      </Typography>
-                    </CardContent>
-                  </Card>
+                      {item.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.subtitle}
+                    </Typography>
+                  </Paper>
                 </Link>
               </Grid>
             ))}

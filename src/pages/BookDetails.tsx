@@ -61,7 +61,7 @@ const BookDetails = () => {
               borderRadius: 2,
               padding: 3,
               display: "flex",
-              flexDirection: { xs: "column", md: "row" }, // Stack on mobile, row on desktop
+              flexDirection: { xs: "column", md: "row" },
               gap: 3,
             }}
           >
@@ -77,21 +77,27 @@ const BookDetails = () => {
               image={book?.bookImg}
               alt={book?.title}
             />
-
-            {/* Book Details */}
             <Box sx={{ flex: 1 }}>
               <Typography
-                variant="h4"
-                sx={{ fontWeight: "bold", marginBottom: 2 }}
+                variant="h2"
+                fontSize={24}
+                fontWeight={500}
+                sx={{ marginBottom: 2 }}
               >
                 {book?.title}
+              </Typography>
+              <Typography
+                variant="body1"
+                fontSize={24}
+                fontWeight={700}
+                sx={{ marginBottom: 2, color: "#ED553B" }}
+              >
+                ${book?.price}
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: 2 }}>
                 <strong>Author:</strong> {book?.author}
               </Typography>
-              <Typography variant="body1" sx={{ marginBottom: 2 }}>
-                <strong>Price:</strong> ${book?.price}
-              </Typography>
+
               <Typography
                 variant="body1"
                 color={(book?.stock ?? 0) > 0 ? "success.main" : "error.main"}

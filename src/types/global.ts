@@ -41,3 +41,10 @@ export type TBook = {
   stock: number;
   description: string;
 };
+
+export type TCategory = {
+  _id: string;
+  title: string;
+  subtitle: string;
+  icon: string;
+};
