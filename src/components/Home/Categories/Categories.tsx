@@ -1,30 +1,24 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Grid,
-  Button,
-  Box,
-} from "@mui/material";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper/modules";
+import { Box, Typography, Paper, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useGetAllCategoriesQuery } from "../../../redux/features/admin/productManagement.api";
+import { TCategory } from "../../../types/global";
 
-const Categories = () => {
+const CategorySlider = () => {
   const { data: categories } = useGetAllCategoriesQuery(undefined);
   return (
     <Box
       sx={{
-        marginTop: "60px",
-        marginInline: { xs: "20px", sm: "40px", md: "80px" },
-        marginBottom: "60px",
+        mt: { xs: 6, md: 10 },
+        px: { xs: 2, sm: 4, md: 10, lg: 2 },
+        mb: { xs: 6, md: 10 },
       }}
     >
       <Box
         sx={{
           textAlign: "center",
-          marginBottom: "40px",
+          mb: { xs: 4, md: 6 },
         }}
       >
         <Typography
@@ -45,84 +39,76 @@ const Categories = () => {
             color: "#393280",
             fontSize: { xs: 24, sm: 28, md: 32 },
             fontWeight: 700,
-            marginTop: 1,
+            mt: 1.5,
           }}
         >
           Explore our Top Categories
         </Typography>
       </Box>
-      <Box sx={{ flexGrow: 1, padding: 2 }}>
-        <Grid container spacing={4}>
-          {categories?.data?.map((item: any) => (
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={4}
-              lg={4}
-              key={item._id}
-              sx={{ display: "flex", justifyContent: "center" }}
+      <style>
+        {`
+      .swiper-button-next,
+      .swiper-button-prev {
+        color: #ED553B; 
+      }
+    `}
+      </style>
+      <Swiper
+        modules={[Navigation]}
+        navigation
+        spaceBetween={24}
+        slidesPerView={4}
+        breakpoints={{
+          1200: { slidesPerView: 4 },
+          900: { slidesPerView: 3 },
+          600: { slidesPerView: 2 },
+          0: { slidesPerView: 1 },
+        }}
+      >
+        {categories?.data?.map((item: TCategory) => (
+          <SwiperSlide key={item._id}>
+            <Link
+              to={`/categories/${item.title}`}
+              style={{
+                textDecoration: "none",
+                width: "100%",
+                display: "block",
+              }}
             >
-              <Link
-                to={`/categories/${item.title}`}
-                style={{
-                  textDecoration: "none",
-                  width: "100%",
-                  display: "block",
+              <Paper
+                elevation={1}
+                sx={{
+                  height: 200,
+                  borderRadius: 2,
+                  overflow: "visible",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  textAlign: "center",
+                  p: 2,
+                  boxShadow: "0 4px 12px rgba(0,0,0,0.08)",
+                  transition: "transform 0.3s ease, box-shadow 0.3s ease",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: "0 6px 20px rgba(0,0,0,0.12)",
+                  },
                 }}
               >
-                <Card
-                  sx={{
-                    maxWidth: 400,
-                    width: "100%",
-                    boxShadow: 3,
-                    borderRadius: 2,
-                    transition: "transform 0.3s ease, box-shadow 0.3s ease",
-                    "&:hover": {
-                      transform: "scale(1.05)",
-                      boxShadow: 6,
-                    },
-                  }}
-                >
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={item.imgUrl}
-                    alt={item.title}
-                    sx={{
-                      objectFit: "cover",
-                    }}
-                  />
-                  <CardContent
-                    sx={{
-                      textAlign: "center",
-                      padding: "24px",
-                    }}
-                  >
-                    <Typography
-                      gutterBottom
-                      variant="h6"
-                      component="div"
-                      sx={{
-                        width: "100%",
-                        height: "100%",
-                        textAlign: "center",
-                        color: "#393280",
-                        fontSize: 24,
-                        fontFamily: "Inter",
-                        fontWeight: "600",
-                        wordWrap: "break-word",
-                      }}
-                    >
-                      {item.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+                <Typography fontSize={50} mb={1}>
+                  {item.icon}
+                </Typography>
+                <Typography variant="h6" fontWeight="bold">
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {item.subtitle}
+                </Typography>
+              </Paper>
+            </Link>
+          </SwiperSlide>
+        ))}
+      </Swiper>
       <Box
         sx={{
           display: "flex",
@@ -157,4 +143,4 @@ const Categories = () => {
   );
 };
 
-export default Categories;
+export default CategorySlider;

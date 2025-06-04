@@ -156,7 +156,6 @@ const HeroSection: React.FC = () => {
               },
               maxWidth: "400px",
               borderRadius: "8px",
-              objectFit: "cover",
               mx: "auto",
               mt: "5px",
               mb: 4,
